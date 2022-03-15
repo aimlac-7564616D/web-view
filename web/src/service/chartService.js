@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import md5 from 'md5'
 import { apiCall } from '../helper/apiTools'
 
 const ENABLE_CACHE = true
@@ -48,7 +47,7 @@ const getDashboardDefinition = async (tag) => {
   return await response.json()
 }
 
-const queryDatabase = async (sql, hash) => {
+const queryDatabase = async (key, sql, hash) => {
   const url = '/api/chart/query'
   const payload = { sql: sql, hash: hash }
 
@@ -78,7 +77,7 @@ const queryDatabase = async (sql, hash) => {
       if (ENABLE_CACHE) {
         // update cache
         window.localStorage.removeItem(hash)
-        window.localStorage.setItem(md5(sql), data.hash)
+        window.localStorage.setItem(key, data.hash)
         window.localStorage.setItem(data.hash, JSON.stringify(data))
       }
       update = true
@@ -87,11 +86,11 @@ const queryDatabase = async (sql, hash) => {
   return {data, update}
 }
 
-const updateData = async (sql, history) => {
+const updateData = async (key, sql, history) => {
   const hash = (history) ? history.hash : (
-    (ENABLE_CACHE) ? window.localStorage.getItem(md5(sql)) : null
+    (ENABLE_CACHE) ? window.localStorage.getItem(key) : null
   )
-  return await queryDatabase(sql, hash)
+  return await queryDatabase(key, sql, hash)
 }
 
 const filterByColumns = (data, cols) => {

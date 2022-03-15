@@ -25,6 +25,7 @@ const Dashboard = ({ tag }) => {
 
       Object.keys(dashboardDef.data).forEach(async key => {
         let {data, update} = await updateData(
+          key,
           dashboardDef.data[key],
           globalState.data[key]
         )
