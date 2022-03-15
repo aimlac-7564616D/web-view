@@ -49,7 +49,6 @@ const Register = () => {
         if (!ok) {
           setState(prevState => ({...prevState, mssg: res.message}))
         } else {
-          console.log(res)
           navigate('complete')
         }
       })).catch(err => console.log(err))
