@@ -1,0 +1,108 @@
+{
+  "data": {
+    "openweather_data": "SELECT * FROM openweather_data;"
+  },
+  "parents": {
+    "default": {
+      "template": "time-series",
+      "type": "area",
+      "options": {
+        "chart": { "zoom": {"autoScaleYaxis": false} },
+        "dataLabels": {"enabled": false},
+        "stroke": {"curve": "smooth", "width": 1.5},
+        "xaxis": {"type": "datetime"},
+        "tooltip": {"x": {"format": "dd/MM/yyyy HH:mm"}}
+      }
+    }
+  },
+  "chart": [
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "openweather_data", "keys": ["time", "pressure"]},
+          "name": "pressure"
+        }
+      ],
+      "options": { "title": {"text": "OWM pressure"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "openweather_data", "keys": ["time", "humidity"]},
+          "name": "humidity"
+        }
+      ],
+      "options": { "title": {"text": "OWM humidity"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "openweather_data", "keys": ["time", "visibility"]},
+          "name": "visibility"
+        }
+      ],
+      "options": { "title": {"text": "OWM visibility"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "openweather_data", "keys": ["time", "clouds"]},
+          "name": "clouds"
+        }
+      ],
+      "options": { "title": {"text": "OWM clouds"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "openweather_data", "keys": ["time", "wind_deg"]},
+          "name": "wind_deg"
+        }
+      ],
+      "options": { "title": {"text": "OWM wind_deg"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "openweather_data", "keys": ["time", "wind_speed"]},
+          "name": "wind_speed"
+        }
+      ],
+      "options": { "title": {"text": "OWM wind_speed"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "openweather_data", "keys": ["time", "wind_gust"]},
+          "name": "wind_gust"
+        }
+      ],
+      "options": { "title": {"text": "OWM wind_gust"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "openweather_data", "keys": ["time", "temperature_min"]},
+          "name": "temperature_min"
+        },
+        {
+          "data": {"src": "openweather_data", "keys": ["time", "temperature"]},
+          "name": "temperature"
+        },
+        {
+          "data": {"src": "openweather_data", "keys": ["time", "temperature_max"]},
+          "name": "temperature_max"
+        }
+      ],
+      "options": { "title": {"text": "OWM temperature"} }
+    }
+  ]
+}
