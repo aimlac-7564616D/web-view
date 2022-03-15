@@ -1,0 +1,120 @@
+{
+  "data": {
+    "energy_onsite": "SELECT * FROM energy_onsite;"
+  },
+  "parents": {
+    "default": {
+      "template": "time-series",
+      "type": "area",
+      "options": {
+        "chart": { "zoom": {"autoScaleYaxis": false} },
+        "dataLabels": {"enabled": false},
+        "stroke": {"curve": "smooth", "width": 1.5},
+        "xaxis": {"type": "datetime"},
+        "tooltip": {"x": {"format": "dd/MM/yyyy HH:mm"}}
+      }
+    }
+  },
+  "chart": [
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "hq_power"]},
+          "name": "hq_power"
+        }
+      ],
+      "options": { "title": {"text": "Onsite hq_power"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "computing_center"]},
+          "name": "computing_center"
+        }
+      ],
+      "options": { "title": {"text": "Onsite computing_center"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "wind1"]},
+          "name": "wind1"
+        }
+      ],
+      "options": { "title": {"text": "Onsite wind1"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "wind2"]},
+          "name": "wind2"
+        }
+      ],
+      "options": { "title": {"text": "Onsite wind2"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "wind3"]},
+          "name": "wind3"
+        }
+      ],
+      "options": { "title": {"text": "Onsite wind3"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "wind4"]},
+          "name": "wind4"
+        }
+      ],
+      "options": { "title": {"text": "Onsite wind4"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "windA"]},
+          "name": "windA"
+        }
+      ],
+      "options": { "title": {"text": "Onsite windA"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "windB"]},
+          "name": "windB"
+        }
+      ],
+      "options": { "title": {"text": "Onsite windB"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "hq_temperature"]},
+          "name": "hq_temperature"
+        }
+      ],
+      "options": { "title": {"text": "Onsite hq_temperature"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "solar"]},
+          "name": "solar"
+        }
+      ],
+      "options": { "title": {"text": "Onsite solar"} }
+    }
+  ]
+}

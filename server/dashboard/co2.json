@@ -1,0 +1,79 @@
+{
+  "data": {
+    "carbon_dioxide": "SELECT * FROM carbon_dioxide;"
+  },
+  "parents": {
+    "default": {
+      "template": "time-series",
+      "type": "area",
+      "options": {
+        "chart": { "zoom": {"autoScaleYaxis": true} },
+        "dataLabels": {"enabled": false},
+        "stroke": {"curve": "smooth", "width": 1.5},
+        "xaxis": {"type": "datetime"},
+        "tooltip": {"x": {"format": "dd/MM/yyyy HH:mm"}}
+      }
+    }
+  },
+  "chart": [
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "carbon_dioxide", "keys": ["time", "intensity"]},
+          "name": "intensity"
+        }
+      ],
+      "options": { "title": {"text": "CO2 intensity"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "carbon_dioxide", "keys": ["time", "fuel_gas"]},
+          "name": "fuel_gas"
+        },
+        {
+          "data": {"src": "carbon_dioxide", "keys": ["time", "fuel_coal"]},
+          "name": "fuel_coal"
+        },
+        {
+          "data": {"src": "carbon_dioxide", "keys": ["time", "fuel_biomass"]},
+          "name": "fuel_biomass"
+        },
+        {
+          "data": {"src": "carbon_dioxide", "keys": ["time", "fuel_nuclear"]},
+          "name": "fuel_nuclear"
+        },
+        {
+          "data": {"src": "carbon_dioxide", "keys": ["time", "fuel_hydro"]},
+          "name": "fuel_hydro"
+        },
+        {
+          "data": {"src": "carbon_dioxide", "keys": ["time", "fuel_imports"]},
+          "name": "fuel_imports"
+        },
+        {
+          "data": {"src": "carbon_dioxide", "keys": ["time", "fuel_other"]},
+          "name": "fuel_other"
+        },
+        {
+          "data": {"src": "carbon_dioxide", "keys": ["time", "fuel_wind"]},
+          "name": "fuel_wind"
+        },
+        {
+          "data": {"src": "carbon_dioxide", "keys": ["time", "fuel_solar"]},
+          "name": "fuel_solar"
+        }
+      ],
+      "options": {
+        "chart": {
+          "animations": {"enabled": false},
+          "stacked": true
+        },
+        "title": {"text": "CO2 fuel"},
+        "yaxis": {"max": 100}
+      }
+    }
+  ]
+}
