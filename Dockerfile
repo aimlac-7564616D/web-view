@@ -7,7 +7,7 @@ COPY web/package-lock.json ./
 
 RUN npm ci --silent
 COPY web/ ./
-RUN npm run build
+RUN GENERATE_SOURCEMAP=false npm run build
 
 FROM node:alpine3.15
 
