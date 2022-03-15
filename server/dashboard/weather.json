@@ -1,108 +1,281 @@
 {
-  "data": {
-    "openweather_data": "SELECT * FROM openweather_data;"
-  },
-  "parents": {
-    "default": {
-      "template": "time-series",
-      "type": "area",
-      "options": {
-        "chart": { "zoom": {"autoScaleYaxis": false} },
-        "dataLabels": {"enabled": false},
-        "stroke": {"curve": "smooth", "width": 1.5},
-        "xaxis": {"type": "datetime"},
-        "tooltip": {"x": {"format": "dd/MM/yyyy HH:mm"}}
+    "data": {
+      "openweather_data": "SELECT * FROM openweather_data;",
+      "metoffice_spot": "SELECT * FROM metoffice_spot;"
+    },
+    "parents": {
+      "default": {
+        "template": "time-series",
+        "type": "area",
+        "options": {
+          "chart": {
+            "animations": {"enabled": false},
+            "zoom": {"autoScaleYaxis": false},
+            "toolbar": {"tools": {"reset": false}}
+          },
+          "dataLabels": {"enabled": false},
+          "stroke": {"curve": "smooth", "width": 1.5},
+          "xaxis": {"type": "datetime"},
+          "tooltip": {"x": {"format": "dd/MM/yyyy HH:mm"}}
+        }
       }
-    }
-  },
-  "chart": [
-    {
-      "inherit": "default",
-      "series": [
-        {
-          "data": {"src": "openweather_data", "keys": ["time", "pressure"]},
-          "name": "pressure"
-        }
-      ],
-      "options": { "title": {"text": "OWM pressure"} }
     },
-    {
-      "inherit": "default",
-      "series": [
-        {
-          "data": {"src": "openweather_data", "keys": ["time", "humidity"]},
-          "name": "humidity"
-        }
-      ],
-      "options": { "title": {"text": "OWM humidity"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
-        {
-          "data": {"src": "openweather_data", "keys": ["time", "visibility"]},
-          "name": "visibility"
-        }
-      ],
-      "options": { "title": {"text": "OWM visibility"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
-        {
-          "data": {"src": "openweather_data", "keys": ["time", "clouds"]},
-          "name": "clouds"
-        }
-      ],
-      "options": { "title": {"text": "OWM clouds"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
-        {
-          "data": {"src": "openweather_data", "keys": ["time", "wind_deg"]},
-          "name": "wind_deg"
-        }
-      ],
-      "options": { "title": {"text": "OWM wind_deg"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
-        {
-          "data": {"src": "openweather_data", "keys": ["time", "wind_speed"]},
-          "name": "wind_speed"
-        }
-      ],
-      "options": { "title": {"text": "OWM wind_speed"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
-        {
-          "data": {"src": "openweather_data", "keys": ["time", "wind_gust"]},
-          "name": "wind_gust"
-        }
-      ],
-      "options": { "title": {"text": "OWM wind_gust"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
-        {
-          "data": {"src": "openweather_data", "keys": ["time", "temperature_min"]},
-          "name": "temperature_min"
-        },
-        {
-          "data": {"src": "openweather_data", "keys": ["time", "temperature"]},
-          "name": "temperature"
-        },
-        {
-          "data": {"src": "openweather_data", "keys": ["time", "temperature_max"]},
-          "name": "temperature_max"
-        }
-      ],
-      "options": { "title": {"text": "OWM temperature"} }
-    }
-  ]
-}
+    "chart": [
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "openweather_data", "keys": ["time", "pressure"]},
+            "name": "pressure"
+          }
+        ],
+        "options": { "title": {"text": "OWM pressure"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "openweather_data", "keys": ["time", "humidity"]},
+            "name": "humidity"
+          }
+        ],
+        "options": { "title": {"text": "OWM humidity"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "openweather_data", "keys": ["time", "visibility"]},
+            "name": "visibility"
+          }
+        ],
+        "options": { "title": {"text": "OWM visibility"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "openweather_data", "keys": ["time", "clouds"]},
+            "name": "clouds"
+          }
+        ],
+        "options": { "title": {"text": "OWM clouds"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "openweather_data", "keys": ["time", "wind_deg"]},
+            "name": "wind_deg"
+          }
+        ],
+        "options": { "title": {"text": "OWM wind_deg"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "openweather_data", "keys": ["time", "wind_speed"]},
+            "name": "wind_speed"
+          }
+        ],
+        "options": { "title": {"text": "OWM wind_speed"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "openweather_data", "keys": ["time", "wind_gust"]},
+            "name": "wind_gust"
+          }
+        ],
+        "options": { "title": {"text": "OWM wind_gust"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "openweather_data", "keys": ["time", "temperature_min"]},
+            "name": "temperature_min"
+          },
+          {
+            "data": {"src": "openweather_data", "keys": ["time", "temperature"]},
+            "name": "temperature"
+          },
+          {
+            "data": {"src": "openweather_data", "keys": ["time", "temperature_max"]},
+            "name": "temperature_max"
+          }
+        ],
+        "options": { "title": {"text": "OWM temperature"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "windDirectionFrom10m"]},
+            "name": "windDirectionFrom10m"
+          }
+        ],
+        "options": { "title": {"text": "MET windDirectionFrom10m"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "visibility"]},
+            "name": "visibility"
+          }
+        ],
+        "options": { "title": {"text": "MET visibility"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "mslp"]},
+            "name": "mslp"
+          }
+        ],
+        "options": { "title": {"text": "MET mslp"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "uvIndex"]},
+            "name": "uvIndex"
+          }
+        ],
+        "options": { "title": {"text": "MET uvIndex"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "significantWeatherCode"]},
+            "name": "significantWeatherCode"
+          }
+        ],
+        "options": { "title": {"text": "MET significantWeatherCode"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "precipitationRate"]},
+            "name": "precipitationRate"
+          }
+        ],
+        "options": { "title": {"text": "MET precipitationRate"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "totalPrecipAmount"]},
+            "name": "totalPrecipAmount"
+          }
+        ],
+        "options": { "title": {"text": "MET totalPrecipAmount"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "totalSnowAmount"]},
+            "name": "totalSnowAmount"
+          }
+        ],
+        "options": { "title": {"text": "MET totalSnowAmount"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "probOfPrecipitation"]},
+            "name": "probOfPrecipitation"
+          }
+        ],
+        "options": { "title": {"text": "MET probOfPrecipitation"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "screenRelativeHumidity"]},
+            "name": "screenRelativeHumidity"
+          }
+        ],
+        "options": { "title": {"text": "MET screenRelativeHumidity"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "windGustSpeed10m"]},
+            "name": "windGustSpeed10m"
+          }
+        ],
+        "options": { "title": {"text": "MET windGustSpeed10m"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "max10mWindGust"]},
+            "name": "max10mWindGust"
+          }
+        ],
+        "options": { "title": {"text": "MET max10mWindGust"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "windSpeed10m"]},
+            "name": "windSpeed10m"
+          }
+        ],
+        "options": { "title": {"text": "MET windSpeed10m"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "minScreenAirTemp"]},
+            "name": "minScreenAirTemp"
+          },
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "screenTemperature"]},
+            "name": "screenTemperature"
+          },
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "maxScreenAirTemp"]},
+            "name": "maxScreenAirTemp"
+          }
+        ],
+        "options": { "title": {"text": "MET screenTemperature"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "screenDewPointTemperature"]},
+            "name": "screenDewPointTemperature"
+          }
+        ],
+        "options": { "title": {"text": "MET screenDewPointTemperature"} }
+      },
+      {
+        "inherit": "default",
+        "series": [
+          {
+            "data": {"src": "metoffice_spot", "keys": ["time", "feelsLikeTemperature"]},
+            "name": "feelsLikeTemperature"
+          }
+        ],
+        "options": { "title": {"text": "MET feelsLikeTemperature"} }
+      }
+    ]
+  }
