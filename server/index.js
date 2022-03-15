@@ -9,6 +9,7 @@ const { chartRouter } = require('./routes/chart')
 const { userRouter } = require('./routes/user')
 
 const config = require('./config')
+const db = require('./db')
 const port = config.PORT
 const app = express()
 
@@ -31,6 +32,10 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, './build', 'index.html'));
 })
 
-app.listen(port, () => {
-  console.log(`Running server on port ${port}`)
+app.on('ready', () => {
+  app.listen(port, () => {
+    console.log(`Running server on port ${port}`)
+  })
 })
+
+db.connect(app)

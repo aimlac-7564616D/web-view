@@ -31,4 +31,4 @@ ENV SQL_PORT 3306
 ENV SQL_DATABASE ""
 ENV JWT_SECRET "s3cr3t_k3y"
 
-CMD ["pm2-runtime", "process.yml"]
+ENTRYPOINT ["pm2-runtime", "process.yml"]
