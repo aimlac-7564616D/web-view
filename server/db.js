@@ -10,10 +10,10 @@ const dbConfig = {
   database: config.DB_DATABASE
 }
 
-const conn = mysql.createConnection(dbConfig)
-
+let conn = null
 const establishConnection = () => (
   new Promise((resolve, reject) => {
+    conn = mysql.createConnection(dbConfig)
     conn.connect(err => {
       if (err) {
         reject(err)
@@ -31,9 +31,11 @@ const connect = async (app) => {
   while (!connected) {
     try {
       connected = await establishConnection()
-    } catch ( error ) {}
-    // wait for 1s
-    await new Promise(r => setTimeout(r, 1000))
+    } catch ( error ) {
+      console.log('failed to connect, retrying...')
+    }
+    // wait for 5s
+    await new Promise(r => setTimeout(r, 5000))
   }
   app.emit('ready')
 }
