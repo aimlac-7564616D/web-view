@@ -33,10 +33,7 @@ const Dashboard = ({ tag }) => {
           dispatch({key: `data.${key}`, value: data})
       })
     }
-    load().catch(err => {
-      console.log(err)
-      setError(true)
-    })
+    load().catch(err => { console.log(err) })
     // error if not ready in 30s
     const timer = setTimeout(() => setError(!ready), 30000)
     return () => clearTimeout(timer)
