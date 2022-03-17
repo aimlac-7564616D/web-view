@@ -1,6 +1,7 @@
 {
   "data": {
-    "energy_onsite": "SELECT * FROM energy_onsite;"
+    "energy_onsite": "SELECT * FROM energy_onsite;",
+    "powerPrediction": "SELECT time, SolarPower * 100 AS SolarPower, WindPower * 100 AS WindPower FROM powerPrediction;"
   },
   "parents": {
     "default": {
@@ -42,59 +43,33 @@
         {
           "data": {"src": "energy_onsite", "keys": ["time", "wind1"]},
           "name": "wind1"
-        }
-      ],
-      "options": { "title": {"text": "Onsite wind1"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
+        },
         {
           "data": {"src": "energy_onsite", "keys": ["time", "wind2"]},
           "name": "wind2"
-        }
-      ],
-      "options": { "title": {"text": "Onsite wind2"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
+        },
         {
           "data": {"src": "energy_onsite", "keys": ["time", "wind3"]},
           "name": "wind3"
-        }
-      ],
-      "options": { "title": {"text": "Onsite wind3"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
+        },
         {
           "data": {"src": "energy_onsite", "keys": ["time", "wind4"]},
           "name": "wind4"
-        }
-      ],
-      "options": { "title": {"text": "Onsite wind4"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
+        },
         {
           "data": {"src": "energy_onsite", "keys": ["time", "windA"]},
           "name": "windA"
-        }
-      ],
-      "options": { "title": {"text": "Onsite windA"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
+        },
         {
           "data": {"src": "energy_onsite", "keys": ["time", "windB"]},
           "name": "windB"
+        },
+        {
+          "data": {"src": "powerPrediction", "keys": ["time", "WindPower"]},
+          "name": "wind (prediction)"
         }
       ],
-      "options": { "title": {"text": "Onsite windB"} }
+      "options": { "title": {"text": "Onsite wind"} }
     },
     {
       "inherit": "default",
@@ -112,6 +87,10 @@
         {
           "data": {"src": "energy_onsite", "keys": ["time", "solar"]},
           "name": "solar"
+        },
+        {
+          "data": {"src": "powerPrediction", "keys": ["time", "SolarPower"]},
+          "name": "solar (prediction)"
         }
       ],
       "options": { "title": {"text": "Onsite solar"} }
