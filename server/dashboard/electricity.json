@@ -1,14 +1,17 @@
 {
   "data": {
-    "energy_onsite": "SELECT * FROM energy_onsite;",
-    "powerPrediction": "SELECT time, SolarPower * 100 AS SolarPower, WindPower * 100 AS WindPower FROM powerPrediction;"
+    "energy_onsite": "SELECT *, wind1 + wind2 + wind3 + wind4 + windA + windB AS wind, wind1 + wind2 + wind3 + wind4 + windA + windB + solar + hq_power AS net_power FROM energy_onsite;",
+    "powerPrediction": "SELECT time, SolarPower * 1000 AS SolarPower, WindPower * 1000 AS WindPower, HQTemperature, -HQPowerDemand * 1000 AS HQPowerDemand, (WindPower + SolarPower - HQPowerDemand) * 1000 AS NetPower FROM powerPrediction;"
   },
   "parents": {
     "default": {
       "template": "time-series",
       "type": "area",
       "options": {
-        "chart": { "zoom": {"autoScaleYaxis": false} },
+        "chart": {
+          "animations": {"enabled": false},
+          "zoom": {"autoScaleYaxis": false}
+        },
         "dataLabels": {"enabled": false},
         "stroke": {"curve": "smooth", "width": 1.5},
         "xaxis": {"type": "datetime"},
@@ -22,78 +25,80 @@
       "series": [
         {
           "data": {"src": "energy_onsite", "keys": ["time", "hq_power"]},
-          "name": "hq_power"
+          "name": "HQ Power"
+        },
+        {
+          "data": {"src": "powerPrediction", "keys": ["time", "HQPowerDemand"]},
+          "name": "HQ Power (SLIMJaB)"
         }
       ],
-      "options": { "title": {"text": "Onsite hq_power"} }
+      "options": { "title": {"text": "HQ Power"} }
     },
     {
       "inherit": "default",
       "series": [
         {
           "data": {"src": "energy_onsite", "keys": ["time", "computing_center"]},
-          "name": "computing_center"
+          "name": "Computing Center"
         }
       ],
-      "options": { "title": {"text": "Onsite computing_center"} }
-    },
-    {
-      "inherit": "default",
-      "series": [
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "wind1"]},
-          "name": "wind1"
-        },
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "wind2"]},
-          "name": "wind2"
-        },
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "wind3"]},
-          "name": "wind3"
-        },
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "wind4"]},
-          "name": "wind4"
-        },
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "windA"]},
-          "name": "windA"
-        },
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "windB"]},
-          "name": "windB"
-        },
-        {
-          "data": {"src": "powerPrediction", "keys": ["time", "WindPower"]},
-          "name": "wind (prediction)"
-        }
-      ],
-      "options": { "title": {"text": "Onsite wind"} }
+      "options": { "title": {"text": "Computing Center"} }
     },
     {
       "inherit": "default",
       "series": [
         {
           "data": {"src": "energy_onsite", "keys": ["time", "hq_temperature"]},
-          "name": "hq_temperature"
+          "name": "HQ Temperature"
+        },
+        {
+          "data": {"src": "powerPrediction", "keys": ["time", "HQTemperature"]},
+          "name": "HQ Temperature (SLIMJaB)"
         }
       ],
-      "options": { "title": {"text": "Onsite hq_temperature"} }
+      "options": { "title": {"text": "HQ Temperature"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "wind"]},
+          "name": "Wind"
+        },
+        {
+          "data": {"src": "powerPrediction", "keys": ["time", "WindPower"]},
+          "name": "Wind (SLIMJaB)"
+        }
+      ],
+      "options": { "title": {"text": "Wind"} }
     },
     {
       "inherit": "default",
       "series": [
         {
           "data": {"src": "energy_onsite", "keys": ["time", "solar"]},
-          "name": "solar"
+          "name": "Solar"
         },
         {
           "data": {"src": "powerPrediction", "keys": ["time", "SolarPower"]},
-          "name": "solar (prediction)"
+          "name": "Solar (SLIMJaB)"
         }
       ],
-      "options": { "title": {"text": "Onsite solar"} }
+      "options": { "title": {"text": "Solar"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "net_power"]},
+          "name": "Net Power"
+        },
+        {
+          "data": {"src": "powerPrediction", "keys": ["time", "NetPower"]},
+          "name": "Net Power (SLIMJaB)"
+        }
+      ],
+      "options": { "title": {"text": "Net Power"} }
     }
   ]
 }
