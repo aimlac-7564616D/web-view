@@ -1,7 +1,7 @@
 {
   "data": {
-    "energy_onsite": "SELECT * FROM energy_onsite;",
-    "powerPrediction": "SELECT time, SolarPower * 1000 AS SolarPower, ROUND(WindPower * 1000 / 6, 0) AS WindPower, HQTemperature, -HQPowerDemand * 1000 AS HQPowerDemand FROM powerPrediction;"
+    "energy_onsite": "SELECT *, wind1 + wind2 + wind3 + wind4 + windA + windB AS wind, wind1 + wind2 + wind3 + wind4 + windA + windB + solar + hq_power AS net_power FROM energy_onsite;",
+    "powerPrediction": "SELECT time, SolarPower * 1000 AS SolarPower, WindPower * 1000 AS WindPower, HQTemperature, -HQPowerDemand * 1000 AS HQPowerDemand, (WindPower + SolarPower - HQPowerDemand) * 1000 AS NetPower FROM powerPrediction;"
   },
   "parents": {
     "default": {
@@ -29,7 +29,7 @@
         },
         {
           "data": {"src": "powerPrediction", "keys": ["time", "HQPowerDemand"]},
-          "name": "HQ Power (SLIMJAB)"
+          "name": "HQ Power (SLIMJaB)"
         }
       ],
       "options": { "title": {"text": "HQ Power"} }
@@ -53,7 +53,7 @@
         },
         {
           "data": {"src": "powerPrediction", "keys": ["time", "HQTemperature"]},
-          "name": "HQ Temperature (SLIMJAB)"
+          "name": "HQ Temperature (SLIMJaB)"
         }
       ],
       "options": { "title": {"text": "HQ Temperature"} }
@@ -62,32 +62,12 @@
       "inherit": "default",
       "series": [
         {
-          "data": {"src": "energy_onsite", "keys": ["time", "wind1"]},
-          "name": "Wind 1"
-        },
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "wind2"]},
-          "name": "Wind 2"
-        },
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "wind3"]},
-          "name": "Wind 3"
-        },
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "wind4"]},
-          "name": "Wind 4"
-        },
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "windA"]},
-          "name": "Wind A"
-        },
-        {
-          "data": {"src": "energy_onsite", "keys": ["time", "windB"]},
-          "name": "Wind B"
+          "data": {"src": "energy_onsite", "keys": ["time", "wind"]},
+          "name": "Wind"
         },
         {
           "data": {"src": "powerPrediction", "keys": ["time", "WindPower"]},
-          "name": "Wind (SLIMJAB)"
+          "name": "Wind (SLIMJaB)"
         }
       ],
       "options": { "title": {"text": "Wind"} }
@@ -101,10 +81,24 @@
         },
         {
           "data": {"src": "powerPrediction", "keys": ["time", "SolarPower"]},
-          "name": "Solar (SLIMJAB)"
+          "name": "Solar (SLIMJaB)"
         }
       ],
       "options": { "title": {"text": "Solar"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "energy_onsite", "keys": ["time", "net_power"]},
+          "name": "Net Power"
+        },
+        {
+          "data": {"src": "powerPrediction", "keys": ["time", "NetPower"]},
+          "name": "Net Power (SLIMJaB)"
+        }
+      ],
+      "options": { "title": {"text": "Net Power"} }
     }
   ]
 }
