@@ -46,6 +46,9 @@ const Content = styled.div`
   @media only screen and (max-width: 560px) {
     padding: 0.5em;
   }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 const DashboardBase = () => {

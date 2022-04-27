@@ -18,6 +18,9 @@ const SideNavBar = styled.div`
       width: 0;
     }
   }
+  &::-webkit-scrollbar {
+    display: none
+  }
 `
 
 const Item = styled(Link)`
