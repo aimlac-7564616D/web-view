@@ -76,6 +76,9 @@ const NavBar = ({id}) => (
       <NavItem to='/dashboard/price'>
         <i className='mdi mdi-chart-areaspline'></i> Price
       </NavItem>
+      <NavItem to='/dashboard/order'>
+        <i className='mdi mdi-receipt'></i> Order
+      </NavItem>
     </ul>
     <hr className='mb-0' />
     <NavItem to='/dashboard/account'>
