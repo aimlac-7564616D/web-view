@@ -5,6 +5,7 @@ import Dashboard from './page/Dashboard'
 import DashboardBase from './page/DashboardBase'
 import Login from './page/Login'
 import NotFound from './page/NotFound'
+import Order from './page/Order'
 import PostRegister from './page/PostRegister'
 import Register from './page/Register'
 
@@ -33,6 +34,7 @@ const App = () => {
           <Route path='electricity' element={<Dashboard tag='electricity' />} />
           <Route path='co2' element={<Dashboard tag='co2' />} />
           <Route path='price' element={<Dashboard tag='price' />} />
+          <Route path='order' element={<Order />} />
           <Route path='account' element={<Account />} />
           <Route path='*' element={<NotFound />} />
         </Route>

@@ -1,5 +1,7 @@
 module.exports = {
   PORT: process.env.PORT || 3000,
+  AIMLAC_RSE_ADDR: process.env.AIMLAC_RSE_ADDR,
+  AIMLAC_RSE_KEY: process.env.AIMLAC_RSE_KEY,
   DB_USER: process.env.SQL_USER,
   DB_PASS: process.env.SQL_PASS,
   DB_HOST: process.env.SQL_HOST,

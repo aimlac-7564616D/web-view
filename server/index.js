@@ -6,6 +6,7 @@ const path = require('path')
 
 const { authRouter } = require('./routes/auth')
 const { chartRouter } = require('./routes/chart')
+const { orderRouter } = require('./routes/order')
 const { userRouter } = require('./routes/user')
 
 const config = require('./config')
@@ -21,6 +22,7 @@ app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/chart', chartRouter)
+app.use('/api/order', orderRouter)
 app.use('/api/user', userRouter)
 
 app.get('/api/debug', (req, res) => {

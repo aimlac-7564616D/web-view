@@ -20,6 +20,9 @@ const ChartBox = styled.div`
     padding: .5em;
     padding-top: 1em;
   }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 const ChartTitle = styled.p`
@@ -30,6 +33,9 @@ const ChartTitle = styled.p`
   overflow: scroll;
   @media only screen and (max-width: 560px) {
     font-size: 1em;
+  }
+  &::-webkit-scrollbar {
+    display: none;
   }
 `
 

@@ -1,4 +1,70 @@
 {
-  "data": {},
-  "chart": []
+  "data": {
+    "elexonDERSYdata": "SELECT *, DATE_ADD(settlementDate, INTERVAL settlementPeriod - 1 HOUR) AS time FROM elexonDERSYdata;",
+    "rseClearout": "SELECT *, settlementDate + INTERVAL (settlementPeriod - 1) DIV 2 HOUR AS time FROM rseMarket WHERE clearoutPrice IS NOT NULL AND clearoutVolume IS NOT NULL ORDER BY time;",
+    "rseMarketData": "SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1) DIV 2 HOUR) + INTERVAL (settlementPeriod - 1) % 2 * 30 MINUTE AS time FROM rseMarket ORDER BY time;"
+  },
+  "parents": {
+    "default": {
+      "template": "time-series",
+      "type": "area",
+      "options": {
+        "chart": { "zoom": {"autoScaleYaxis": true} },
+        "dataLabels": {"enabled": false},
+        "stroke": {"curve": "smooth", "width": 1.5},
+        "xaxis": {"type": "datetime"},
+        "tooltip": {"x": {"format": "dd/MM/yyyy HH:mm"}}
+      }
+    }
+  },
+  "chart": [
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "elexonDERSYdata", "keys": ["time", "systemBuyPrice"]},
+          "name": "buy price"
+        },
+        {
+          "data": {"src": "elexonDERSYdata", "keys": ["time", "systemSellPrice"]},
+          "name": "sell price"
+        },
+        {
+          "data": {"src": "elexonDERSYdata", "keys": ["time", "replacementPrice"]},
+          "name": "replacement price"
+        }
+      ],
+      "options": { "title": {"text": "Elexon System Price"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "rseClearout", "keys": ["time", "clearoutPrice"]},
+          "name": "price"
+        }
+      ],
+      "options": { "title": {"text": "RSE Clearout Prices"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "rseClearout", "keys": ["time", "clearoutVolume"]},
+          "name": "volume"
+        }
+      ],
+      "options": { "title": {"text": "RSE Clearout Volumes"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "rseMarketData", "keys": ["time", "imbalancePrice"]},
+          "name": "price"
+        }
+      ],
+      "options": { "title": {"text": "RSE Imbalance Price"} }
+    }
+  ]
 }

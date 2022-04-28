@@ -18,6 +18,9 @@ const SideNavBar = styled.div`
       width: 0;
     }
   }
+  &::-webkit-scrollbar {
+    display: none
+  }
 `
 
 const Item = styled(Link)`
@@ -72,6 +75,9 @@ const NavBar = ({id}) => (
       </NavItem>
       <NavItem to='/dashboard/price'>
         <i className='mdi mdi-chart-areaspline'></i> Price
+      </NavItem>
+      <NavItem to='/dashboard/order'>
+        <i className='mdi mdi-receipt'></i> Order
       </NavItem>
     </ul>
     <hr className='mb-0' />
