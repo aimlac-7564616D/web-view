@@ -7,7 +7,10 @@
       "template": "time-series",
       "type": "area",
       "options": {
-        "chart": { "zoom": {"autoScaleYaxis": true} },
+        "chart": {
+          "animations": {"enabled": false},
+          "zoom": {"autoScaleYaxis": true}
+        },
         "dataLabels": {"enabled": false},
         "stroke": {"curve": "smooth", "width": 1.5},
         "xaxis": {"type": "datetime"},
