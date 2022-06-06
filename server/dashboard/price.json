@@ -1,7 +1,7 @@
 {
   "data": {
-    "elexonDERSYdata": "SELECT *, DATE_ADD(settlementDate, INTERVAL settlementPeriod - 1 HOUR) AS time FROM elexonDERSYdata;",
-    "rseClearout": "SELECT *, settlementDate + INTERVAL (settlementPeriod - 1) DIV 2 HOUR AS time FROM rseMarket WHERE clearoutPrice IS NOT NULL AND clearoutVolume IS NOT NULL ORDER BY time;",
+    "elexonDERSYdata": "SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1 ) * 30 MINUTE) AS time FROM elexonDERSYdata;",
+    "rseClearout": "SELECT *, DATE_ADD(settlementDate + INTERVAL (settlementPeriod - 1) DIV 2 HOUR) AS time FROM rseMarket WHERE clearoutPrice IS NOT NULL AND clearoutVolume IS NOT NULL ORDER BY time;",
     "rseMarketData": "SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1) DIV 2 HOUR) + INTERVAL (settlementPeriod - 1) % 2 * 30 MINUTE AS time FROM rseMarket ORDER BY time;"
   },
   "parents": {
