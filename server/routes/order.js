@@ -1,3 +1,4 @@
+const axios = require('axios')
 const express = require('express')
 const config = require('../config')
 
@@ -11,8 +12,8 @@ router.get('/get', async (req, res) => {
   try {
     const url = `http://${config.AIMLAC_RSE_ADDR}/auction/bidding/get`
     const params = `?key=${config.AIMLAC_RSE_KEY}&applying_date=${date}`
-    const resp = await fetch(url + params, {method: "GET"})
-    res.status(200).json(await resp.json())
+    const resp = await axios.get(url + params)
+    res.status(200).json(await resp.data)
   } catch (error) {
     console.log(error)
     res.status(500).json({message: 'error fetching order from RSE API'})
