@@ -3,7 +3,7 @@ import { Buffer } from 'buffer'
 import { deflateRaw, inflateRaw } from 'react-zlib-js'
 import { apiCall } from '../helper/apiTools'
 
-const ENABLE_CACHE = true
+const ENABLE_CACHE = false
 
 const DATATYPE = {
   DECIMAL: (v) => v,
