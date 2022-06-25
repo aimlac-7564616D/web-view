@@ -1,7 +1,7 @@
 {
     "data": {
-      "openweather_data": "SELECT * FROM openweather_data;",
-      "metoffice_spot": "SELECT * FROM metoffice_spot;"
+      "openweather_data": "SELECT * FROM openweather_data ORDER BY time;",
+      "metoffice_spot": "SELECT * FROM metoffice_spot ORDER BY time;"
     },
     "parents": {
       "default": {
@@ -14,7 +14,7 @@
             "toolbar": {"tools": {"reset": false}}
           },
           "dataLabels": {"enabled": false},
-          "stroke": {"curve": "smooth", "width": 1.5},
+          "stroke": {"curve": "straight", "width": 2},
           "xaxis": {"type": "datetime"},
           "tooltip": {"x": {"format": "dd/MM/yyyy HH:mm"}}
         }

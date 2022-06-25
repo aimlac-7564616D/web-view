@@ -1,6 +1,6 @@
 {
   "data": {
-    "elexonDERSYdata": "SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1 ) * 30 MINUTE) AS time FROM elexonDERSYdata;",
+    "elexonDERSYdata": "SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1 ) * 30 MINUTE) AS time FROM elexonDERSYdata ORDER BY time;",
     "rseClearout": "SELECT *, settlementDate + INTERVAL (settlementPeriod - 1) DIV 2 HOUR AS time FROM rseMarket WHERE clearoutPrice IS NOT NULL AND clearoutVolume IS NOT NULL ORDER BY time;",
     "rseMarketData": "SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1) DIV 2 HOUR) + INTERVAL (settlementPeriod - 1) % 2 * 30 MINUTE AS time FROM rseMarket ORDER BY time;"
   },
@@ -14,7 +14,7 @@
           "zoom": {"autoScaleYaxis": true}
         },
         "dataLabels": {"enabled": false},
-        "stroke": {"curve": "smooth", "width": 1.5},
+        "stroke": {"curve": "straight", "width": 2},
         "xaxis": {"type": "datetime"},
         "tooltip": {"x": {"format": "dd/MM/yyyy HH:mm"}}
       }

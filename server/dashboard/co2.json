@@ -1,6 +1,6 @@
 {
   "data": {
-    "carbon_dioxide": "SELECT * FROM carbon_dioxide;"
+    "carbon_dioxide": "SELECT * FROM carbon_dioxide ORDER BY time;"
   },
   "parents": {
     "default": {
@@ -12,7 +12,7 @@
           "zoom": {"autoScaleYaxis": true}
         },
         "dataLabels": {"enabled": false},
-        "stroke": {"curve": "smooth", "width": 1.5},
+        "stroke": {"curve": "straight", "width": 2},
         "xaxis": {"type": "datetime"},
         "tooltip": {"x": {"format": "dd/MM/yyyy HH:mm"}}
       }
