@@ -1,7 +1,9 @@
 import _ from 'lodash'
+import { Buffer } from 'buffer'
+import { deflateRaw, inflateRaw } from 'react-zlib-js'
 import { apiCall } from '../helper/apiTools'
 
-const ENABLE_CACHE = true
+const ENABLE_CACHE = false
 
 const DATATYPE = {
   DECIMAL: (v) => v,
@@ -37,6 +39,36 @@ const DATATYPE = {
   GEOMETRY: (v) => v
 }
 
+const compress = async (data) => {
+  return await new Promise((resolve, reject) => {
+    const input = JSON.stringify(data).toString('utf-8')
+    deflateRaw(input, (err, buffer) => {
+      if (err) {
+        reject(err)
+      } else {
+        const string = buffer.toString('base64')
+        if (string.length > 0)
+          resolve(string)
+      }
+    })
+  })
+}
+
+const decompress = async (data) => {
+  return await new Promise((resolve, reject) => {
+    const input = Buffer.from(data, 'base64')
+    inflateRaw(input, (err, buffer) => {
+      if (err) {
+        reject(err)
+      } else {
+        const string = buffer.toString('utf-8')
+        if (string.length > 0)
+          resolve(JSON.parse(string))
+      }
+    })
+  })
+}
+
 const getDashboardDefinition = async (tag) => {
   const url = `/api/chart/dashboard/${tag}`
   const response = await apiCall(url, {
@@ -45,6 +77,28 @@ const getDashboardDefinition = async (tag) => {
     credentials: 'include'
   })
   return await response.json()
+}
+
+const queryNoCache = async (sql) => {
+  const url = '/api/chart/query'
+  const payload = { sql: sql }
+  
+  let data = {}
+  try {
+    const response = await apiCall(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(payload)
+    })
+    if (!response.ok) {
+      const message = (await response.json()).message
+      console.log(message)
+    } else {
+      data = await response.json()
+    }
+  } catch (error) { console.log(error) }
+  return data
 }
 
 const queryDatabase = async (key, sql, hash) => {
@@ -69,20 +123,26 @@ const queryDatabase = async (key, sql, hash) => {
     else if (response.status === 204) {
       if (ENABLE_CACHE) {
         // get from cache & update state
-        data = JSON.parse(window.localStorage.getItem(hash))
+        data = await decompress(window.localStorage.getItem(hash))
         update = true
       }
     } else {
       data = await response.json()
+      update = true
       if (ENABLE_CACHE) {
         // update cache
         window.localStorage.removeItem(hash)
-        window.localStorage.setItem(key, data.hash)
-        window.localStorage.setItem(data.hash, JSON.stringify(data))
+        try {
+          window.localStorage.setItem(key, data.hash)
+          window.localStorage.setItem(data.hash, (await compress(data)))
+        } catch (error) { console.log(error) }
       }
-      update = true
     }
-  } catch (error) { console.log(error) }
+  } catch (error) {
+    console.log(error)
+    data = await queryNoCache(sql)
+    update = true
+  }
   return {data, update}
 }
 

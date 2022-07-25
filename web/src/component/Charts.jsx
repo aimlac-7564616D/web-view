@@ -93,9 +93,9 @@ const SimpleChart = (props) => {
 
 const DatetimeChart = (props) => {
   const [chartId, ] = useState(_.uniqueId('chart'))
-  const [selection, setSelection] = useState('A')
+  const [selection, setSelection] = useState('M')
   
-  const tsZoom = useCallback((ts) => {
+  const tsZoom = useCallback(() => {
     try {
       let minTime = Number.POSITIVE_INFINITY
       let maxTime = Number.NEGATIVE_INFINITY
@@ -107,7 +107,7 @@ const DatetimeChart = (props) => {
       })
       let last = new Date(maxTime)
       let from = new Date(maxTime)
-      switch (ts) {
+      switch (selection) {
         case 'H': from.setHours(last.getHours() - 3); break
         case 'D': from.setDate(last.getDate() - 1); break
         case 'W': from.setDate(last.getDate() - 7); break
@@ -120,17 +120,14 @@ const DatetimeChart = (props) => {
       last = Math.min(maxTime, last.getTime())
       ApexCharts.exec(chartId, 'zoomX', from, last)
     } catch (error) {  }
-  }, [chartId, props])
+  }, [chartId, selection, props])
 
-  useEffect(() => {
-    tsZoom(selection)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  useEffect(() => { tsZoom() }, [tsZoom])
 
   const handleCheck = useCallback((event) => {
     let ts = event.target.name.charAt(0)
     setSelection(ts)
-    tsZoom(ts)
+    tsZoom()
   }, [setSelection, tsZoom])
 
   return <div className='col-xl-6'>

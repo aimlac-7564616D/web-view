@@ -1,7 +1,7 @@
 {
   "data": {
-    "energy_onsite": "SELECT *, wind1 + wind2 + wind3 + wind4 + windA + windB AS wind, wind1 + wind2 + wind3 + wind4 + windA + windB + solar + hq_power AS net_power FROM energy_onsite;",
-    "powerPrediction": "SELECT time, SolarPower * 1000 AS SolarPower, WindPower * 1000 AS WindPower, HQTemperature, -HQPowerDemand * 1000 AS HQPowerDemand, (WindPower + SolarPower - HQPowerDemand) * 1000 AS NetPower FROM powerPrediction;"
+    "energy_onsite": "SELECT *, wind1 + wind2 + wind3 + wind4 + windA + windB AS wind, wind1 + wind2 + wind3 + wind4 + windA + windB + solar + hq_power AS net_power FROM energy_onsite ORDER BY time;",
+    "powerPrediction": "SELECT time, SolarPower * 1000 AS SolarPower, WindPower * 1000 AS WindPower, HQTemperature, -HQPowerDemand * 1000 AS HQPowerDemand, (WindPower + SolarPower - HQPowerDemand) * 1000 AS NetPower FROM powerPrediction ORDER BY time;"
   },
   "parents": {
     "default": {
@@ -13,7 +13,7 @@
           "zoom": {"autoScaleYaxis": false}
         },
         "dataLabels": {"enabled": false},
-        "stroke": {"curve": "smooth", "width": 1.5},
+        "stroke": {"curve": "straight", "width": 2},
         "xaxis": {"type": "datetime"},
         "tooltip": {"x": {"format": "dd/MM/yyyy HH:mm"}}
       }
