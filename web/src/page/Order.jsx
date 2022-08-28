@@ -82,8 +82,8 @@ const OderData = ({ order }) => {
           order.map((row, key) => <tr key={key}>
             <td>{row.order_id}</td>
             <td>{(row.hour_ID - 1).toString().padStart(2, "0")}:00</td>
-            <td>{row.price.toFixed(2)}</td>
-            <td>{row.volume.toFixed(2)}</td>
+            <td>{(!row.price) ? "NaN" : row.price.toFixed(2)}</td>
+            <td>{(!row.volume) ? "NaN" : row.volume.toFixed(2)}</td>
             <td>{row.type}</td>
             <td>
               {
