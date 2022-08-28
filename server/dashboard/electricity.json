@@ -2,7 +2,7 @@
   "data": {
     "energy_onsite": "SELECT *, wind1 + wind2 + wind3 + wind4 + windA + windB AS wind, wind1 + wind2 + wind3 + wind4 + windA + windB + solar + hq_power AS net_power FROM energy_onsite ORDER BY time;",
     "powerPrediction": "SELECT time, SolarPower * 1000 AS SolarPower, WindPower * 1000 AS WindPower, HQTemperature, -HQPowerDemand * 1000 AS HQPowerDemand, (WindPower + SolarPower - HQPowerDemand) * 1000 AS NetPower FROM powerPrediction ORDER BY time;",
-    "error": "WITH A AS (SELECT time, SolarPower * 1000 AS SolarPower, WindPower * 1000 AS WindPower, HQTemperature, -HQPowerDemand * 1000 AS HQPowerDemand, (WindPower + SolarPower - HQPowerDemand) * 1000 AS NetPower FROM powerPrediction ORDER BY time), B AS (SELECT FROM_UNIXTIME( ROUND(UNIX_TIMESTAMP(time) / 900,0)*900) AS time30, wind1 + wind2 + wind3 + wind4 + windA + windB AS wind, wind1 + wind2 + wind3 + wind4 + windA + windB + solar + hq_power AS net_power FROM energy_onsite ORDER BY time) SELECT FROM_UNIXTIME(UNIX_TIMESTAMP(DATE(B.time30))) AS dateOnly, ROUND(SQRT(AVG(POWER(A.NetPower - B.net_power, 2))), 2) AS rmse FROM A JOIN B WHERE A.time = B.time30 GROUP BY dateOnly HAVING rmse IS NOT NULL;"
+    "metrics": "WITH A AS ( SELECT time, SolarPower * 1000 AS SolarPower, WindPower * 1000 AS WindPower, HQTemperature, - HQPowerDemand * 1000 AS HQPowerDemand, ( WindPower + SolarPower - HQPowerDemand ) * 1000 AS NetPower FROM powerPrediction ORDER BY time ), B AS ( SELECT FROM_UNIXTIME( ROUND( UNIX_TIMESTAMP(time) / 900, 0 )* 900 ) AS time30, wind1 + wind2 + wind3 + wind4 + windA + windB AS wind, wind1 + wind2 + wind3 + wind4 + windA + windB + solar + hq_power AS net_power FROM energy_onsite ORDER BY time ) SELECT FROM_UNIXTIME( UNIX_TIMESTAMP( DATE(B.time30) ) ) AS dateOnly, ROUND( SQRT( AVG( POWER(A.NetPower - B.net_power, 2) ) ), 2 ) AS rmse, IF ( SIGN(A.NetPower) >= 0, IF ( SIGN(B.net_power) >= 0, IF( B.net_power > A.NetPower, B.net_power - A.NetPower, 0 ), 0 ), IF ( SIGN(B.net_power) >= 0, B.net_power - A.NetPower, IF ( B.net_power > A.NetPower, B.net_power > A.NetPower, 0 ) ) ) AS energy_wasted, IF ( SIGN(A.NetPower) >= 0, IF ( SIGN(B.net_power) >= 0, IF( B.net_power > A.NetPower, 0, A.NetPower - B.net_power ), A.NetPower - B.net_power ), IF ( SIGN(B.net_power) >= 0, 0, IF ( B.net_power > A.NetPower, 0, A.NetPower - B.net_power ) ) ) AS energy_shortage FROM A JOIN B WHERE A.time = B.time30 GROUP BY dateOnly HAVING rmse IS NOT NULL;"
   },
   "parents": {
     "default": {
@@ -105,11 +105,25 @@
       "inherit": "default",
       "series": [
         {
-          "data": {"src": "error", "keys": ["dateOnly", "rmse"]},
+          "data": {"src": "metrics", "keys": ["dateOnly", "rmse"]},
           "name": "RMSE (SLIMJaB)"
         }
       ],
       "options": { "title": {"text": "RMSE Net Power"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "metrics", "keys": ["dateOnly", "energy_wasted"]},
+          "name": "Energy Wasted"
+        },
+        {
+          "data": {"src": "metrics", "keys": ["dateOnly", "energy_shortage"]},
+          "name": "Energy Shortage"
+        }
+      ],
+      "options": { "title": {"text": "Net Power Metrics"} }
     }
   ]
 }
