@@ -2,7 +2,9 @@
   "data": {
     "elexonDERSYdata": "SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1 ) * 30 MINUTE) AS time FROM elexonDERSYdata ORDER BY time;",
     "rseClearout": "SELECT *, settlementDate + INTERVAL (settlementPeriod - 1) DIV 2 HOUR AS time FROM rseMarket WHERE clearoutPrice IS NOT NULL AND clearoutVolume IS NOT NULL ORDER BY time;",
-    "rseMarketData": "SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1) DIV 2 HOUR) + INTERVAL (settlementPeriod - 1) % 2 * 30 MINUTE AS time FROM rseMarket ORDER BY time;"
+    "rseMarketData": "SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1) DIV 2 HOUR) + INTERVAL (settlementPeriod - 1) % 2 * 30 MINUTE AS time FROM rseMarket ORDER BY time;",
+    "pricePrediction": "SELECT * FROM pricePrediction;",
+    "error": "WITH A AS (SELECT * FROM pricePrediction ORDER BY time), B AS (SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1 ) * 30 MINUTE) AS time FROM elexonDERSYdata ORDER BY time) SELECT FROM_UNIXTIME(UNIX_TIMESTAMP(DATE(A.time))) AS dateOnly, ROUND(SQRT(AVG(POWER(A.price - B.systemBuyPrice, 2))), 2) AS rmse FROM A JOIN B WHERE A.time = B.time GROUP BY dateOnly HAVING rmse IS NOT NULL;"
   },
   "parents": {
     "default": {
@@ -11,7 +13,7 @@
       "options": {
         "chart": {
           "animations": {"enabled": false},
-          "zoom": {"autoScaleYaxis": true}
+          "zoom": {"autoScaleYaxis": false}
         },
         "dataLabels": {"enabled": false},
         "stroke": {"curve": "straight", "width": 2},
@@ -26,15 +28,11 @@
       "series": [
         {
           "data": {"src": "elexonDERSYdata", "keys": ["time", "systemBuyPrice"]},
-          "name": "buy price"
+          "name": "price"
         },
         {
-          "data": {"src": "elexonDERSYdata", "keys": ["time", "systemSellPrice"]},
-          "name": "sell price"
-        },
-        {
-          "data": {"src": "elexonDERSYdata", "keys": ["time", "replacementPrice"]},
-          "name": "replacement price"
+          "data": {"src": "pricePrediction", "keys": ["time", "price"]},
+          "name": "price (SLIMJaB)"
         }
       ],
       "options": { "title": {"text": "Elexon System Price"} }
@@ -68,6 +66,16 @@
         }
       ],
       "options": { "title": {"text": "RSE Imbalance Price"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "error", "keys": ["dateOnly", "rmse"]},
+          "name": "RMSE (SLIMJaB)"
+        }
+      ],
+      "options": { "title": {"text": "RMSE Price"} }
     }
   ]
 }
