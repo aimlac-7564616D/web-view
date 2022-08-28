@@ -4,7 +4,7 @@
     "rseClearout": "SELECT *, settlementDate + INTERVAL (settlementPeriod - 1) DIV 2 HOUR AS time FROM rseMarket WHERE clearoutPrice IS NOT NULL AND clearoutVolume IS NOT NULL ORDER BY time;",
     "rseMarketData": "SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1) DIV 2 HOUR) + INTERVAL (settlementPeriod - 1) % 2 * 30 MINUTE AS time FROM rseMarket ORDER BY time;",
     "pricePrediction": "SELECT * FROM pricePrediction;",
-    "error": "WITH A AS (SELECT * FROM pricePrediction ORDER BY time), B AS (SELECT *, DATE_ADD(settlementDate, INTERVAL (settlementPeriod - 1 ) * 30 MINUTE) AS time FROM elexonDERSYdata ORDER BY time) SELECT FROM_UNIXTIME(UNIX_TIMESTAMP(DATE(A.time))) AS dateOnly, ROUND(SQRT(AVG(POWER(A.price - B.systemBuyPrice, 2))), 2) AS rmse FROM A JOIN B WHERE A.time = B.time GROUP BY dateOnly HAVING rmse IS NOT NULL;"
+    "metrics": "WITH A AS ( SELECT * FROM pricePrediction ORDER BY time ), B AS ( SELECT *, DATE_ADD( settlementDate, INTERVAL (settlementPeriod - 1) * 30 MINUTE ) AS time FROM elexonDERSYdata ORDER BY time ) SELECT FROM_UNIXTIME( UNIX_TIMESTAMP( DATE(A.time) ) ) AS dateOnly, ROUND( SQRT( AVG( POWER(A.price - B.systemBuyPrice, 2) ) ), 2 ) AS rmse, IF (A.price >= B.systemBuyPrice, AVG(A.price - B.systemBuyPrice), 0) AS overestimate, IF (A.price < B.systemBuyPrice, AVG(B.systemBuyPrice - A.price), 0) AS underestimate FROM A JOIN B WHERE A.time = B.time GROUP BY dateOnly HAVING rmse IS NOT NULL;"
   },
   "parents": {
     "default": {
@@ -71,11 +71,25 @@
       "inherit": "default",
       "series": [
         {
-          "data": {"src": "error", "keys": ["dateOnly", "rmse"]},
+          "data": {"src": "metrics", "keys": ["dateOnly", "rmse"]},
           "name": "RMSE (SLIMJaB)"
         }
       ],
       "options": { "title": {"text": "RMSE Price"} }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "metrics", "keys": ["dateOnly", "overestimate"]},
+          "name": "Over-estimate"
+        },
+        {
+          "data": {"src": "metrics", "keys": ["dateOnly", "underestimate"]},
+          "name": "Underestimate"
+        }
+      ],
+      "options": { "title": {"text": "Price Metrics"} }
     }
   ]
 }

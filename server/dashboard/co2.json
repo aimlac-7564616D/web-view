@@ -1,6 +1,7 @@
 {
   "data": {
-    "carbon_dioxide": "SELECT * FROM carbon_dioxide ORDER BY time;"
+    "carbon_dioxide": "SELECT * FROM carbon_dioxide ORDER BY time;",
+    "co2_saved": "SELECT * FROM carbon_dioxide_saved ORDER BY time;"
   },
   "parents": {
     "default": {
@@ -77,6 +78,16 @@
         "title": {"text": "CO2 fuel"},
         "yaxis": {"max": 100}
       }
+    },
+    {
+      "inherit": "default",
+      "series": [
+        {
+          "data": {"src": "co2_saved", "keys": ["time", "co2saved"]},
+          "name": "CO2 saved"
+        }
+      ],
+      "options": { "title": {"text": "CO2 saving"} }
     }
   ]
 }
